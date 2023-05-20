@@ -36,7 +36,8 @@ class member_StorySerializer(serializers.Serializer):
     image=serializers.ImageField(max_length=None, use_url=True, allow_null=True, required=False)
     file=serializers.FileField(max_length=None, use_url=True, allow_null=True, required=False)
     status=serializers.CharField(max_length=10,default="Deactive")
-    date=serializers.DateTimeField()
+    date=serializers.CharField(max_length=100,default='')
+    like_count=serializers.IntegerField(default=0)
     
     def create(self,validatedData):
         return member_Story.objects.create(**validatedData)
@@ -46,15 +47,18 @@ class admin_StorySerializer(serializers.Serializer):
     content=serializers.CharField(max_length=300,default='')
     image=serializers.ImageField(max_length=None, use_url=True, allow_null=True, required=False)
     file=serializers.FileField(max_length=None, use_url=True, allow_null=True, required=False)
-    date=serializers.DateTimeField()
+    date=serializers.CharField(max_length=100,default='')
+    like_count=serializers.IntegerField(default=0)
     def create(self,validatedData):
         return admin_Story.objects.create(**validatedData) 
     
 class DonationSerializer(serializers.Serializer):
-    id=models.IntegerField()
+    id=serializers.IntegerField()
+    name = serializers.CharField(max_length=50,default='')
+    phone = serializers.CharField(max_length=10,default='')
     amount=serializers.IntegerField()
     description=serializers.CharField(max_length=500,default='')
-    created_at=serializers.DateTimeField()
+    date=serializers.CharField(max_length=100,default='')
 
     
     def create(self,validatedData):
@@ -69,7 +73,7 @@ class SliderSerializer(serializers.Serializer):
         return Slider.objects.create(**validatedData)
 
 class FutureEventSerializer(serializers.Serializer):
-    id=models.IntegerField()
+    id=serializers.IntegerField()
     title=serializers.CharField(max_length=300,default='')
     image=serializers.ImageField(max_length=None, use_url=True, allow_null=True, required=False)
     description=serializers.CharField(max_length=500,default='')
@@ -78,4 +82,52 @@ class FutureEventSerializer(serializers.Serializer):
     
     def create(self,validatedData):
         return FutureEvent.objects.create(**validatedData)
+    
+
+class Comment_SectionSerializer(serializers.Serializer):
+       id=serializers.IntegerField()
+       post_id=serializers.IntegerField()
+       user_name=serializers.CharField(max_length=100)
+       user_image=serializers.ImageField(max_length=None,use_url=True,allow_null=True,required=False)
+       comment=serializers.CharField(max_length=1000)
+
+       def create(self,validatedData):
+        return Comment_Section.objects.create(**validatedData)
+    
+       
+
+class Comment_SectionMemberSerializer(serializers.Serializer):
+       id=serializers.IntegerField()
+       post_id=serializers.IntegerField()
+       user_name=serializers.CharField(max_length=100)
+       user_image=serializers.ImageField(max_length=None,use_url=True,allow_null=True,required=False)
+       comment=serializers.CharField(max_length=1000)
+
+       def create(self,validatedData):
+        return Comment_Section.objects.create(**validatedData)
+    
+       
+class PustikaSerializer(serializers.Serializer):
+    id=serializers.IntegerField()
+    file=serializers.FileField(max_length=None,use_url=True,allow_null=True,required=False)
+
+    def create(self,validatedData):
+        return Pustika.objects.create(**validatedData)
+    
+       
+class Member_Login_NotificationSerializer(serializers.Serializer):
+    id=serializers.IntegerField()
+    message=serializers.CharField(max_length=None,default='')
+
+    def create(self,validatedData):
+        return Member_Login_Notification.objects.create(**validatedData)
+    
+
+class Notification_For_MemberSerializer(serializers.Serializer):
+    id=serializers.IntegerField()
+    message=serializers.CharField(max_length=None,default='')
+
+    def create(self,validatedData):
+        return Notification_For_Member.objects.create(**validatedData)
+    
     
